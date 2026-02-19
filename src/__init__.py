@@ -1,0 +1,1 @@
+# Commit message generator package

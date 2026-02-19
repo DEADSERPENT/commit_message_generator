@@ -1,0 +1,51 @@
+# Default config for Automated Git Commit Message Generator
+
+project:
+  name: commit-msg-gen
+  seed: 42
+
+data:
+  train_path: data/train.jsonl
+  val_path: data/val.jsonl
+  max_diff_tokens: 512
+  max_msg_tokens: 20
+  max_msg_words: 15
+  lowercase_message: true
+  normalize_literals: true
+
+tokenizer:
+  type: sentencepiece
+  vocab_size: 8000
+  model_prefix: data/sp_model
+  character_coverage: 0.9999
+
+model:
+  type: transformer  # or seq2seq
+  # Seq2Seq (when type: seq2seq)
+  embed_dim: 256
+  hidden_dim: 512
+  num_layers: 2
+  dropout_seq2seq: 0.3
+  # Transformer
+  d_model: 256
+  nhead: 8
+  num_encoder_layers: 4
+  num_decoder_layers: 4
+  dim_feedforward: 1024
+  dropout_transformer: 0.1
+
+training:
+  batch_size: 32
+  epochs: 20
+  lr: 2.0e-4
+  weight_decay: 0.01
+  warmup_steps: 1000
+  gradient_clip: 1.0
+  save_every: 1
+  eval_every: 500
+
+intent_aware: false  # Set true for intent-conditioned generation
+
+output:
+  checkpoint_dir: runs
+  log_dir: runs/logs

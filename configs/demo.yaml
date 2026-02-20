@@ -1,0 +1,47 @@
+# Demo training config — fast CPU training for demonstration.
+# Smaller model, fewer epochs, limited data via --train_limit.
+# Use for: python -m src.train --config configs/demo.yaml --train_limit 3000
+
+project:
+  name: commit-msg-gen-demo
+  seed: 42
+
+data:
+  train_path: data/train.jsonl
+  val_path: data/val.jsonl
+  max_diff_tokens: 256   # shorter diffs → faster forward pass
+  max_msg_tokens: 20
+  max_msg_words: 15
+  lowercase_message: true
+  normalize_literals: true
+
+tokenizer:
+  type: sentencepiece
+  vocab_size: 8000
+  model_prefix: data/sp_model
+  character_coverage: 0.9999
+
+model:
+  type: transformer
+  # Smaller Transformer — trains 4-5x faster than the full model
+  d_model: 128
+  nhead: 4
+  num_encoder_layers: 2
+  num_decoder_layers: 2
+  dim_feedforward: 512
+  dropout_transformer: 0.1
+
+training:
+  batch_size: 32
+  epochs: 10
+  lr: 3.0e-4
+  weight_decay: 0.01
+  warmup_steps: 300
+  gradient_clip: 1.0
+  save_every: 2
+
+intent_aware: false
+
+output:
+  checkpoint_dir: runs
+  log_dir: runs/logs

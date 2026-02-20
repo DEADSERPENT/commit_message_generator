@@ -169,6 +169,7 @@ def main():
     )
 
     # Linear warmup + cosine decay scheduler
+    epochs = cfg["training"]["epochs"]
     warmup_steps = cfg["training"].get("warmup_steps", 0)
     total_steps = epochs * len(train_loader)
 

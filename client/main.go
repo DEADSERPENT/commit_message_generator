@@ -109,6 +109,7 @@ type generateRequest struct {
 	Intent      bool    `json:"intent"`
 	Temperature float64 `json:"temperature"`
 	MaxLen      int     `json:"max_len"`
+	BeamSize    int     `json:"beam_size"`
 }
 
 type generateResponse struct {
@@ -117,12 +118,13 @@ type generateResponse struct {
 }
 
 // callAPI sends the diff to the inference server and returns the commit message.
-func callAPI(cfg Config, diff string, intent bool, temperature float64) (string, error) {
+func callAPI(cfg Config, diff string, intent bool, temperature float64, beamSize int) (string, error) {
 	body, err := json.Marshal(generateRequest{
 		Diff:        diff,
 		Intent:      intent,
 		Temperature: temperature,
 		MaxLen:      20,
+		BeamSize:    beamSize,
 	})
 	if err != nil {
 		return "", fmt.Errorf("marshal: %w", err)
@@ -199,6 +201,7 @@ func main() {
 	apiKey := flag.String("key", cfg.APIKey, "Bearer token for the API server")
 	intent := flag.Bool("intent", cfg.Intent, "Prepend conventional commit prefix (fix:/feat:/refactor:/docs:)")
 	temp := flag.Float64("temp", cfg.Temperature, "Sampling temperature (0.0 – 2.0)")
+	beamSize := flag.Int("beam", 1, "Beam size for decoding (1 = greedy, >1 = beam search)")
 	diffFile := flag.String("diff", "", "Read diff from `file` instead of staged changes")
 	useStdin := flag.Bool("stdin", false, "Read diff from stdin (pipe: git diff --staged | commit-suggest --stdin)")
 	doInit := flag.Bool("init", false, "Save current flags to config file and exit")
@@ -266,7 +269,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	message, err := callAPI(cfg, diff, *intent, *temp)
+	message, err := callAPI(cfg, diff, *intent, *temp, *beamSize)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error: %v\n", err)
 		os.Exit(1)

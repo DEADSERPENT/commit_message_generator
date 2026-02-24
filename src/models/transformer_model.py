@@ -8,6 +8,7 @@ from typing import Optional
 
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 
 
 class PositionalEncoding(nn.Module):
@@ -153,3 +154,91 @@ class TransformerCommit(nn.Module):
             if (next_id == eos_id).all():
                 break
         return generated
+
+    def generate_beam(
+        self,
+        diff_ids: torch.Tensor,
+        diff_mask: Optional[torch.Tensor] = None,
+        beam_size: int = 4,
+        max_len: int = 20,
+        eos_id: int = 3,
+        length_penalty: float = 0.6,
+    ) -> torch.Tensor:
+        """
+        Beam search decoding.  Explores *beam_size* candidate sequences at each
+        step and returns the one with the best length-normalised log-probability.
+
+        *diff_ids* must be a single sample: shape (1, T).
+        Returns the best sequence as a tensor of shape (1, L).
+        """
+        assert diff_ids.size(0) == 1, "Beam search supports single-sample inference only"
+        device = diff_ids.device
+        bos_id = 2
+        T_src = diff_ids.size(1)
+
+        # Encode once; expand memory for up to beam_size parallel decodings.
+        memory = self.encode(diff_ids, diff_mask)  # (1, T_src, d_model)
+
+        # State: list of (log_prob_score, token_id_list)
+        # Start with a single beam containing only BOS.
+        beams: list[tuple[float, list[int]]] = [(0.0, [bos_id])]
+        completed: list[tuple[float, list[int]]] = []
+
+        for _ in range(max_len - 1):
+            if not beams:
+                break
+
+            n = len(beams)
+            # Build batch tensor from all current beam sequences.
+            seq_len = len(beams[0][1])  # all beams have equal length at this point
+            batch_seqs = torch.zeros(n, seq_len, dtype=torch.long, device=device)
+            for i, (_, seq) in enumerate(beams):
+                batch_seqs[i] = torch.tensor(seq, dtype=torch.long, device=device)
+
+            # Expand encoder memory and padding mask for the batch.
+            mem_exp = memory.expand(n, T_src, self.d_model)
+            src_pad = self._make_src_key_padding_mask(diff_ids.expand(n, -1))
+            tgt_mask = self._make_tgt_mask(seq_len, device)
+            tgt_key_padding = (batch_seqs == self.pad_id)
+
+            y = self.pos_enc(self.embed(batch_seqs) * math.sqrt(self.d_model))
+            out = self.decoder(
+                y, mem_exp,
+                tgt_mask=tgt_mask,
+                tgt_key_padding_mask=tgt_key_padding,
+                memory_key_padding_mask=src_pad,
+            )
+            logits = self.fc(out[:, -1])           # (n, vocab_size)
+            log_probs = F.log_softmax(logits, dim=-1)  # (n, vocab_size)
+
+            # Expand each beam by the top-beam_size tokens.
+            candidates: list[tuple[float, list[int]]] = []
+            for i, (score, seq) in enumerate(beams):
+                top_lp, top_tok = log_probs[i].topk(beam_size)
+                for lp, tok in zip(top_lp.tolist(), top_tok.tolist()):
+                    candidates.append((score + lp, seq + [tok]))
+
+            # Keep the best beam_size candidates; move finished ones to completed.
+            candidates.sort(key=lambda x: x[0], reverse=True)
+            beams = []
+            for score, seq in candidates:
+                if seq[-1] == eos_id:
+                    norm_score = score / (len(seq) ** length_penalty)
+                    completed.append((norm_score, seq))
+                else:
+                    beams.append((score, seq))
+                if len(beams) + len(completed) >= beam_size:
+                    break
+
+        # Drain any unfinished beams into completed with length normalisation.
+        for score, seq in beams:
+            norm_score = score / max(1, len(seq) ** length_penalty)
+            completed.append((norm_score, seq))
+
+        if not completed:
+            # Fallback: return just the BOS token.
+            return torch.full((1, 1), bos_id, dtype=torch.long, device=device)
+
+        completed.sort(key=lambda x: x[0], reverse=True)
+        best_seq = completed[0][1]
+        return torch.tensor([best_seq], dtype=torch.long, device=device)

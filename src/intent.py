@@ -52,3 +52,26 @@ def classify_intent_heuristic(diff: str) -> int:
 def intent_to_style_prefix(intent_id: int) -> str:
     """Suggested prefix for commit message by intent (conventional commits style)."""
     return INTENT_NAMES[intent_id] + ": "
+
+
+def classify_intent(
+    diff: str,
+    diff_ids=None,
+    ml_model=None,
+    ml_device=None,
+) -> int:
+    """
+    Classify intent using the ML model when available, otherwise the heuristic.
+
+    Parameters
+    ----------
+    diff      : raw diff string (always required for the heuristic fallback).
+    diff_ids  : pre-tokenized BPE IDs (list[int]) — avoids re-tokenising when
+                the caller already has them.
+    ml_model  : loaded IntentClassifier instance, or None.
+    ml_device : torch.device the model lives on, or None.
+    """
+    if ml_model is not None and diff_ids:
+        from .intent_classifier import classify_intent_ml
+        return classify_intent_ml(diff_ids, ml_model, ml_device)
+    return classify_intent_heuristic(diff)

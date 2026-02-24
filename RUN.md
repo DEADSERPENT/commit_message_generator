@@ -347,3 +347,14 @@ commit_message_generator/
 | `Model not loaded` (API 503) | Check server logs; verify `CHECKPOINT` env var |
 | PyTorch nested tensor warnings | Harmless — suppress with `python -W ignore` |
 | Go binary: `git not found` | Install Git and add it to PATH |
+
+  Usage examples:
+  # Train the ML intent classifier
+  python -m src.train_intent_classifier
+
+  # Beam search (beam size 4) + ML intent
+  python -m src.generate --diff data/sample.diff --checkpoint runs/best.pt \
+      --beam_size 4 --intent
+
+  # Go client with beam search
+  commit-suggest --beam 4

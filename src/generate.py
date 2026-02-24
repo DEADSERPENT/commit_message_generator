@@ -17,7 +17,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from src.preprocess import normalize_diff
 from src.tokenizer import DiffTokenizer
 from src.models import Seq2SeqCommit, TransformerCommit
-from src.intent import classify_intent_heuristic, intent_to_style_prefix
+from src.intent import classify_intent, intent_to_style_prefix
+from src.intent_classifier import load_intent_classifier
 
 
 def load_config_from_checkpoint(ckpt_path: str) -> tuple:
@@ -90,7 +91,19 @@ def main():
     parser.add_argument("--checkpoint", type=str, default="runs/best.pt")
     parser.add_argument("--temperature", type=float, default=0.8)
     parser.add_argument("--max_len", type=int, default=20)
+    parser.add_argument(
+        "--beam_size", type=int, default=1,
+        help="Beam size for decoding (default: 1 = greedy). "
+             "Values > 1 enable beam search for higher-quality output.",
+    )
     parser.add_argument("--intent", action="store_true", help="Prepend intent-style prefix (fix/feat/refactor/docs)")
+    parser.add_argument(
+        "--intent_model",
+        type=str,
+        default="runs/intent_classifier.pt",
+        help="Path to trained ML intent classifier checkpoint (default: runs/intent_classifier.pt). "
+             "Falls back to the heuristic if the file does not exist.",
+    )
     args = parser.parse_args()
 
     if args.stdin:
@@ -136,24 +149,46 @@ def main():
     model.eval()
 
     norm_diff = normalize_diff(raw_diff, normalize_literals=True)
-    diff_ids = tokenizer.encode(
-        norm_diff,
-        add_bos=False,
-        add_eos=True,
-        max_len=cfg["data"].get("max_diff_tokens", 512),
-    )
+    max_diff_tokens = cfg["data"].get("max_diff_tokens", 512)
+    full_ids = tokenizer.encode(norm_diff, add_bos=False, add_eos=True)
+    if len(full_ids) > max_diff_tokens:
+        print(
+            f"Warning: diff is {len(full_ids)} tokens but the model accepts at most "
+            f"{max_diff_tokens}. Only the first {max_diff_tokens} tokens will be used; "
+            f"changes beyond that point are invisible to the model.",
+            file=sys.stderr,
+        )
+    diff_ids = full_ids[:max_diff_tokens]
     diff_tensor = torch.tensor([diff_ids], dtype=torch.long, device=device)
     with torch.no_grad():
-        gen = model.generate(
-            diff_tensor,
-            max_len=args.max_len,
-            eos_id=3,
-            temperature=args.temperature,
-        )
+        if args.beam_size > 1:
+            gen = model.generate_beam(
+                diff_tensor,
+                beam_size=args.beam_size,
+                max_len=args.max_len,
+                eos_id=3,
+            )
+        else:
+            gen = model.generate(
+                diff_tensor,
+                max_len=args.max_len,
+                eos_id=3,
+                temperature=args.temperature,
+            )
     msg = tokenizer.decode(gen[0].tolist(), skip_special=True)
     msg = msg.strip() or "(empty)"
     if args.intent:
-        intent_id = classify_intent_heuristic(raw_diff)
+        intent_ckpt = base_dir / args.intent_model
+        ml_model, ml_device = load_intent_classifier(str(intent_ckpt), device)
+        if ml_model is not None:
+            # Encode without EOS for classification (matches training)
+            clf_ids = tokenizer.encode(
+                norm_diff, add_bos=False, add_eos=False,
+                max_len=cfg["data"].get("max_diff_tokens", 512),
+            )
+        else:
+            clf_ids = None
+        intent_id = classify_intent(raw_diff, diff_ids=clf_ids, ml_model=ml_model, ml_device=ml_device)
         prefix = intent_to_style_prefix(intent_id)
         if not msg.lower().startswith(prefix.rstrip().lower()):
             msg = prefix + msg

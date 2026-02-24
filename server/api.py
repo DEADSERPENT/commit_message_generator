@@ -27,7 +27,8 @@ from pydantic import BaseModel, Field
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
-from src.intent import classify_intent_heuristic, intent_to_style_prefix  # noqa: E402
+from src.intent import classify_intent, intent_to_style_prefix  # noqa: E402
+from src.intent_classifier import load_intent_classifier, IntentClassifier  # noqa: E402
 from src.models import Seq2SeqCommit, TransformerCommit  # noqa: E402
 from src.preprocess import normalize_diff  # noqa: E402
 from src.tokenizer import DiffTokenizer  # noqa: E402
@@ -67,11 +68,13 @@ _model: Seq2SeqCommit | TransformerCommit | None = None
 _tokenizer: DiffTokenizer | None = None
 _cfg: dict = {}
 _device: torch.device = torch.device("cpu")
+_intent_model: IntentClassifier | None = None
+_intent_device: torch.device | None = None
 
 
 @app.on_event("startup")
 async def _startup() -> None:
-    global _model, _tokenizer, _cfg, _device
+    global _model, _tokenizer, _cfg, _device, _intent_model, _intent_device
 
     checkpoint_path = os.environ.get("CHECKPOINT", str(ROOT / "runs" / "best.pt"))
     device_str = os.environ.get("DEVICE", "cpu")
@@ -132,6 +135,14 @@ async def _startup() -> None:
     _model.eval()
     log.info("Model ready (%s).", m_cfg["type"])
 
+    # Load ML intent classifier if available (optional — falls back to heuristic)
+    intent_ckpt = ROOT / "runs" / "intent_classifier.pt"
+    _intent_model, _intent_device = load_intent_classifier(str(intent_ckpt), torch.device("cpu"))
+    if _intent_model is not None:
+        log.info("ML intent classifier loaded from %s.", intent_ckpt)
+    else:
+        log.info("No ML intent classifier found at %s; using heuristic fallback.", intent_ckpt)
+
 
 # --------------------------------------------------------------------------- #
 # Request / Response schemas                                                    #
@@ -141,8 +152,9 @@ async def _startup() -> None:
 class GenerateRequest(BaseModel):
     diff: str = Field(..., description="Raw git diff text (output of git diff --staged).")
     intent: bool = Field(True, description="Prepend conventional commit prefix (fix:/feat:/etc.).")
-    temperature: float = Field(0.8, ge=0.0, le=2.0, description="Sampling temperature.")
+    temperature: float = Field(0.8, ge=0.0, le=2.0, description="Sampling temperature (ignored when beam_size > 1).")
     max_len: int = Field(20, ge=1, le=64, description="Max tokens to generate.")
+    beam_size: int = Field(1, ge=1, le=16, description="Beam size (1 = greedy, >1 = beam search).")
 
 
 class GenerateResponse(BaseModel):
@@ -176,16 +188,40 @@ async def generate(req: GenerateRequest, _: None = Depends(_check_auth)):
 
     norm = normalize_diff(raw_diff, normalize_literals=True)
     max_diff_tokens = _cfg["data"].get("max_diff_tokens", 512)
-    ids = _tokenizer.encode(norm, add_bos=False, add_eos=True, max_len=max_diff_tokens)
+    full_ids = _tokenizer.encode(norm, add_bos=False, add_eos=True)
+    if len(full_ids) > max_diff_tokens:
+        log.warning(
+            "Diff is %d tokens; truncating to %d. Changes beyond that point are "
+            "invisible to the model.",
+            len(full_ids),
+            max_diff_tokens,
+        )
+    ids = full_ids[:max_diff_tokens]
 
     src = torch.tensor([ids], dtype=torch.long, device=_device)
     with torch.no_grad():
-        gen = _model.generate(src, max_len=req.max_len, eos_id=3, temperature=req.temperature)
+        if req.beam_size > 1:
+            gen = _model.generate_beam(
+                src, beam_size=req.beam_size, max_len=req.max_len, eos_id=3
+            )
+        else:
+            gen = _model.generate(
+                src, max_len=req.max_len, eos_id=3, temperature=req.temperature
+            )
 
     msg = _tokenizer.decode(gen[0].tolist(), skip_special=True).strip() or "(empty)"
 
     if req.intent:
-        intent_id = classify_intent_heuristic(raw_diff)
+        if _intent_model is not None:
+            clf_ids = _tokenizer.encode(
+                norm, add_bos=False, add_eos=False, max_len=max_diff_tokens
+            )
+        else:
+            clf_ids = None
+        intent_id = classify_intent(
+            raw_diff, diff_ids=clf_ids,
+            ml_model=_intent_model, ml_device=_intent_device,
+        )
         prefix = intent_to_style_prefix(intent_id)
         if not msg.lower().startswith(prefix.rstrip().lower()):
             msg = prefix + msg

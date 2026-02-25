@@ -49,6 +49,7 @@ class Seq2SeqCommit(nn.Module):
         super().__init__()
         self.pad_id = pad_id
         self.hidden_dim = hidden_dim
+        self.num_layers = num_layers
         self.embed = nn.Embedding(vocab_size, embed_dim, padding_idx=pad_id)
         self.encoder = nn.LSTM(
             embed_dim,
@@ -87,14 +88,14 @@ class Seq2SeqCommit(nn.Module):
         # Use last layer hidden from both directions; project to decoder hidden_dim
         h = h.view(self.encoder.num_layers, 2, -1, self.hidden_dim)
         h = h[-1]
-        h = torch.cat([h[0], h[1]], dim=1)
+        h = torch.cat([h[0], h[1]], dim=1)  # (B, hidden*2)
         c = c.view(self.encoder.num_layers, 2, -1, self.hidden_dim)
         c = c[-1]
-        c = torch.cat([c[0], c[1]], dim=1)
-        h_dec = self.enc_to_dec(h).unsqueeze(0)
-        c_dec = self.enc_to_dec(c).unsqueeze(0)
-        dec_init = (h_dec, c_dec)
-        return enc_out, dec_init
+        c = torch.cat([c[0], c[1]], dim=1)  # (B, hidden*2)
+        # Project and replicate across all decoder layers: (num_layers, B, hidden)
+        h_dec = self.enc_to_dec(h).unsqueeze(0).expand(self.num_layers, -1, -1).contiguous()
+        c_dec = self.enc_to_dec(c).unsqueeze(0).expand(self.num_layers, -1, -1).contiguous()
+        return enc_out, (h_dec, c_dec)
 
     def forward(
         self,
@@ -104,16 +105,15 @@ class Seq2SeqCommit(nn.Module):
         msg_mask: Optional[torch.Tensor] = None,
     ) -> torch.Tensor:
         enc_out, (h, c) = self.encode(diff_ids, diff_mask)
-        h, c = h.squeeze(0), c.squeeze(0)
+        # h, c: (num_layers, B, hidden) — preserved across steps
         T_dec = msg_ids.size(1)
         msg_emb = self.dropout(self.embed(msg_ids[:, :-1]))
         logits_list = []
         for t in range(T_dec - 1):
-            dec_hidden = torch.cat([h, c], dim=1)
+            dec_hidden = torch.cat([h[-1], c[-1]], dim=1)  # (B, hidden*2)
             context, _ = self.attention(dec_hidden, enc_out, diff_mask)
             inp = torch.cat([msg_emb[:, t], context], dim=1).unsqueeze(1)
-            out, (h, c) = self.decoder_lstm(inp, (h.unsqueeze(0), c.unsqueeze(0)))
-            h, c = h.squeeze(0), c.squeeze(0)
+            out, (h, c) = self.decoder_lstm(inp, (h, c))
             logit = self.fc(torch.cat([out.squeeze(1), context], dim=1))
             logits_list.append(logit)
         logits = torch.stack(logits_list, dim=1)
@@ -128,19 +128,18 @@ class Seq2SeqCommit(nn.Module):
         temperature: float = 1.0,
     ) -> torch.Tensor:
         enc_out, (h, c) = self.encode(diff_ids, diff_mask)
-        h, c = h.squeeze(0), c.squeeze(0)
+        # h, c: (num_layers, B, hidden)
         B = diff_ids.size(0)
         bos_id = 2
         ids = [bos_id] * B
         generated = torch.tensor([ids], device=diff_ids.device).t()
         for _ in range(max_len - 1):
-            dec_hidden = torch.cat([h, c], dim=1)
+            dec_hidden = torch.cat([h[-1], c[-1]], dim=1)
             context, _ = self.attention(dec_hidden, enc_out, diff_mask)
             inp = torch.cat(
                 [self.embed(generated[:, -1]), context], dim=1
             ).unsqueeze(1)
-            out, (h, c) = self.decoder_lstm(inp, (h.unsqueeze(0), c.unsqueeze(0)))
-            h, c = h.squeeze(0), c.squeeze(0)
+            out, (h, c) = self.decoder_lstm(inp, (h, c))
             logit = self.fc(torch.cat([out.squeeze(1), context], dim=1))
             if temperature != 1.0:
                 logit = logit / temperature
@@ -175,16 +174,13 @@ class Seq2SeqCommit(nn.Module):
 
         enc_out, (h_init, c_init) = self.encode(diff_ids, diff_mask)
         # enc_out : (1, T_enc, hidden*2)
-        # h_init, c_init : (1, 1, hidden)  (single decoder layer init)
+        # h_init, c_init : (num_layers, 1, hidden)
         T_enc = enc_out.size(1)
 
-        h0 = h_init.squeeze(0)  # (1, hidden)
-        c0 = c_init.squeeze(0)  # (1, hidden)
-
         # Each beam entry: (log_prob_score, token_id_list, h, c)
-        # h and c have shape (1, hidden) — one sequence in the batch.
+        # h and c: (num_layers, 1, hidden)
         BeamEntry = Tuple[float, List[int], torch.Tensor, torch.Tensor]
-        beams: List[BeamEntry] = [(0.0, [bos_id], h0.clone(), c0.clone())]
+        beams: List[BeamEntry] = [(0.0, [bos_id], h_init.clone(), c_init.clone())]
         completed: List[Tuple[float, List[int]]] = []
 
         for _ in range(max_len - 1):
@@ -192,24 +188,21 @@ class Seq2SeqCommit(nn.Module):
                 break
 
             n = len(beams)
-            # Stack hidden states so we can run a single batched LSTM step.
-            batch_h = torch.cat([b[2] for b in beams], dim=0)  # (n, hidden)
-            batch_c = torch.cat([b[3] for b in beams], dim=0)  # (n, hidden)
+            # Stack along beam dim: (num_layers, n, hidden)
+            batch_h = torch.cat([b[2] for b in beams], dim=1)
+            batch_c = torch.cat([b[3] for b in beams], dim=1)
             last_tokens = torch.tensor(
                 [b[1][-1] for b in beams], dtype=torch.long, device=device
             )  # (n,)
 
             enc_exp = enc_out.expand(n, T_enc, -1)  # (n, T_enc, hidden*2)
-            dec_hidden = torch.cat([batch_h, batch_c], dim=1)  # (n, hidden*2)
+            dec_hidden = torch.cat([batch_h[-1], batch_c[-1]], dim=1)  # (n, hidden*2)
             context, _ = self.attention(dec_hidden, enc_exp)   # (n, hidden*2)
 
             inp_emb = self.embed(last_tokens)                  # (n, embed)
             inp = torch.cat([inp_emb, context], dim=1).unsqueeze(1)  # (n, 1, embed+hidden*2)
-            out, (new_h, new_c) = self.decoder_lstm(
-                inp, (batch_h.unsqueeze(0), batch_c.unsqueeze(0))
-            )
-            new_h = new_h.squeeze(0)  # (n, hidden)
-            new_c = new_c.squeeze(0)  # (n, hidden)
+            out, (new_h, new_c) = self.decoder_lstm(inp, (batch_h, batch_c))
+            # new_h, new_c: (num_layers, n, hidden)
 
             logit = self.fc(torch.cat([out.squeeze(1), context], dim=1))  # (n, vocab)
             log_probs = F.log_softmax(logit, dim=-1)
@@ -222,8 +215,8 @@ class Seq2SeqCommit(nn.Module):
                     candidates.append((
                         score + lp,
                         seq + [tok],
-                        new_h[i : i + 1],
-                        new_c[i : i + 1],
+                        new_h[:, i:i+1, :].contiguous(),  # (num_layers, 1, hidden)
+                        new_c[:, i:i+1, :].contiguous(),  # (num_layers, 1, hidden)
                     ))
 
             candidates.sort(key=lambda x: x[0], reverse=True)

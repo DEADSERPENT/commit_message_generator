@@ -20,7 +20,7 @@ tokenizer:
   character_coverage: 0.9999
 
 model:
-  type: seq2seq  # or transformer
+  type: transformer # or seq2seq 
   # Seq2Seq (when type: seq2seq)
   embed_dim: 256
   hidden_dim: 512

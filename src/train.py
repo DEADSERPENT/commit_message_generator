@@ -116,6 +116,7 @@ def main():
         print("Tokenizer not found. Run prepare_data.py first to train tokenizer and create sample data.")
         return
     tokenizer.load()
+    print("Tokenizer loaded.", flush=True)
 
     train_ds = CommitDataset(
         str(train_path),
@@ -128,6 +129,7 @@ def main():
         intent_aware=cfg.get("intent_aware", False),
         limit=args.train_limit,
     )
+    print(f"Dataset loaded: {len(train_ds)} train samples.", flush=True)
     if len(train_ds) == 0:
         print("No training data. Add data/train.jsonl or run prepare_data.py")
         return
@@ -160,6 +162,7 @@ def main():
     vocab_size = tokenizer.vocab_size_actual
     model = get_model(cfg, vocab_size, pad_id=0)
     model = model.to(device)
+    print(f"Model: {cfg['model']['type']} | Device: {device} | Vocab: {vocab_size}", flush=True)
     criterion = nn.CrossEntropyLoss(reduction="none")
     lr = cfg["training"]["lr"]
     optimizer = torch.optim.AdamW(
@@ -185,6 +188,8 @@ def main():
     best_val = float("inf")
     ckpt_dir = base_dir / cfg["output"]["checkpoint_dir"]
 
+    print(f"Starting training: {epochs} epochs, {len(train_loader)} batches/epoch, {total_steps} total steps", flush=True)
+    print("(CUDA warm-up on first batch may take ~30s — this is normal)", flush=True)
     global_step = 0
     for ep in range(epochs):
         model.train()
@@ -216,6 +221,13 @@ def main():
             total_loss += loss.item()
             n += 1
             global_step += 1
+
+            if n % 100 == 0:
+                print(
+                    f"  Epoch {ep+1}/{epochs}  step {n}/{len(train_loader)}"
+                    f"  loss={total_loss/n:.4f}  lr={scheduler.get_last_lr()[0]:.2e}",
+                    flush=True,
+                )
 
         train_loss = total_loss / n if n else 0.0
         print(f"Epoch {ep+1}/{epochs}  train_loss={train_loss:.4f}  lr={scheduler.get_last_lr()[0]:.2e}")

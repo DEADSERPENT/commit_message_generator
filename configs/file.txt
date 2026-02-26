@@ -1,0 +1,706 @@
+mit@mit-HP-Z2-Tower-G9-Workstation-Desktop-PC:~/DEADSERPENT/commit_message_generator$ source /home/mit/DEADSERPENT/commit_message_generator/.venv/bin/activate
+ source /home/mit/DEADSERPENT/commit_message_generator/.venv/bin/activate
+(.venv) mit@mit-HP-Z2-Tower-G9-Workstation-Desktop-PC:~/DEADSERPENT/commit_message_generator$  source /home/mit/DEADSERPENT/commit_message_generator/.venv/bin/activate
+(.venv) mit@mit-HP-Z2-Tower-G9-Workstation-Desktop-PC:~/DEADSERPENT/commit_message_generator$ python3 -m src.train --config configs/default.yaml
+Tokenizer loaded.
+Dataset loaded: 50000 train samples.
+Model: transformer | Device: cuda | Vocab: 8000
+Starting training: 20 epochs, 1563 batches/epoch, 31260 total steps
+(CUDA warm-up on first batch may take ~30s — this is normal)
+/home/mit/DEADSERPENT/commit_message_generator/.venv/lib/python3.12/site-packages/torch/nn/modules/activation.py:1336: UserWarning: Support for mismatched key_padding_mask and attn_mask is deprecated. Use same type for both instead.
+  key_padding_mask = F._canonical_mask(
+  Epoch 1/20  step 100/1563  loss=8.7982  lr=2.00e-05
+  Epoch 1/20  step 200/1563  loss=8.5171  lr=4.00e-05
+  Epoch 1/20  step 300/1563  loss=8.1752  lr=6.00e-05
+  Epoch 1/20  step 400/1563  loss=7.8648  lr=8.00e-05
+  Epoch 1/20  step 500/1563  loss=7.6400  lr=1.00e-04
+  Epoch 1/20  step 600/1563  loss=7.4708  lr=1.20e-04
+  Epoch 1/20  step 700/1563  loss=7.3269  lr=1.40e-04
+  Epoch 1/20  step 800/1563  loss=7.1979  lr=1.60e-04
+  Epoch 1/20  step 900/1563  loss=7.0799  lr=1.80e-04
+  Epoch 1/20  step 1000/1563  loss=6.9786  lr=2.00e-04
+  Epoch 1/20  step 1100/1563  loss=6.8880  lr=2.00e-04
+  Epoch 1/20  step 1200/1563  loss=6.8050  lr=2.00e-04
+  Epoch 1/20  step 1300/1563  loss=6.7311  lr=2.00e-04
+  Epoch 1/20  step 1400/1563  loss=6.6651  lr=2.00e-04
+  Epoch 1/20  step 1500/1563  loss=6.6027  lr=2.00e-04
+Epoch 1/20  train_loss=6.5660  lr=2.00e-04
+/home/mit/DEADSERPENT/commit_message_generator/.venv/lib/python3.12/site-packages/torch/nn/modules/transformer.py:531: UserWarning: The PyTorch API of nested tensors is in prototype stage and will change in the near future. We recommend specifying layout=torch.jagged when constructing a nested tensor, as this layout receives active development, has better operator coverage, and works with torch.compile. (Triggered internally at /pytorch/aten/src/ATen/NestedTensorImpl.cpp:178.)
+  output = torch._nested_tensor_from_mask(
+  val_loss=5.6179
+  Epoch 2/20  step 100/1563  loss=5.6342  lr=2.00e-04
+  Epoch 2/20  step 200/1563  loss=5.6110  lr=2.00e-04
+  Epoch 2/20  step 300/1563  loss=5.5971  lr=2.00e-04
+  Epoch 2/20  step 400/1563  loss=5.5790  lr=2.00e-04
+  Epoch 2/20  step 500/1563  loss=5.5667  lr=1.99e-04
+  Epoch 2/20  step 600/1563  loss=5.5497  lr=1.99e-04
+  Epoch 2/20  step 700/1563  loss=5.5348  lr=1.99e-04
+  Epoch 2/20  step 800/1563  loss=5.5190  lr=1.99e-04
+  Epoch 2/20  step 900/1563  loss=5.5034  lr=1.99e-04
+  Epoch 2/20  step 1000/1563  loss=5.4884  lr=1.99e-04
+  Epoch 2/20  step 1100/1563  loss=5.4743  lr=1.99e-04
+  Epoch 2/20  step 1200/1563  loss=5.4625  lr=1.98e-04
+  Epoch 2/20  step 1300/1563  loss=5.4489  lr=1.98e-04
+  Epoch 2/20  step 1400/1563  loss=5.4341  lr=1.98e-04
+  Epoch 2/20  step 1500/1563  loss=5.4224  lr=1.98e-04
+Epoch 2/20  train_loss=5.4150  lr=1.98e-04
+  val_loss=5.1537
+  Epoch 3/20  step 100/1563  loss=5.1298  lr=1.97e-04
+  Epoch 3/20  step 200/1563  loss=5.1321  lr=1.97e-04
+  Epoch 3/20  step 300/1563  loss=5.1226  lr=1.97e-04
+  Epoch 3/20  step 400/1563  loss=5.1022  lr=1.97e-04
+  Epoch 3/20  step 500/1563  loss=5.0976  lr=1.96e-04
+  Epoch 3/20  step 600/1563  loss=5.0946  lr=1.96e-04
+  Epoch 3/20  step 700/1563  loss=5.0890  lr=1.96e-04
+  Epoch 3/20  step 800/1563  loss=5.0819  lr=1.95e-04
+  Epoch 3/20  step 900/1563  loss=5.0742  lr=1.95e-04
+  Epoch 3/20  step 1000/1563  loss=5.0695  lr=1.95e-04
+  Epoch 3/20  step 1100/1563  loss=5.0635  lr=1.94e-04
+  Epoch 3/20  step 1200/1563  loss=5.0588  lr=1.94e-04
+  Epoch 3/20  step 1300/1563  loss=5.0545  lr=1.94e-04
+  Epoch 3/20  step 1400/1563  loss=5.0496  lr=1.93e-04
+  Epoch 3/20  step 1500/1563  loss=5.0445  lr=1.93e-04
+Epoch 3/20  train_loss=5.0406  lr=1.93e-04
+  val_loss=4.9418
+  Epoch 4/20  step 100/1563  loss=4.8324  lr=1.92e-04
+  Epoch 4/20  step 200/1563  loss=4.8252  lr=1.92e-04
+  Epoch 4/20  step 300/1563  loss=4.8273  lr=1.92e-04
+  Epoch 4/20  step 400/1563  loss=4.8281  lr=1.91e-04
+  Epoch 4/20  step 500/1563  loss=4.8274  lr=1.91e-04
+  Epoch 4/20  step 600/1563  loss=4.8268  lr=1.90e-04
+  Epoch 4/20  step 700/1563  loss=4.8263  lr=1.90e-04
+  Epoch 4/20  step 800/1563  loss=4.8254  lr=1.89e-04
+  Epoch 4/20  step 900/1563  loss=4.8220  lr=1.89e-04
+  Epoch 4/20  step 1000/1563  loss=4.8202  lr=1.88e-04
+  Epoch 4/20  step 1100/1563  loss=4.8194  lr=1.88e-04
+  Epoch 4/20  step 1200/1563  loss=4.8182  lr=1.87e-04
+  Epoch 4/20  step 1300/1563  loss=4.8156  lr=1.87e-04
+  Epoch 4/20  step 1400/1563  loss=4.8167  lr=1.86e-04
+  Epoch 4/20  step 1500/1563  loss=4.8144  lr=1.86e-04
+Epoch 4/20  train_loss=4.8133  lr=1.85e-04
+  val_loss=4.8257
+  Epoch 5/20  step 100/1563  loss=4.6389  lr=1.85e-04
+  Epoch 5/20  step 200/1563  loss=4.6460  lr=1.84e-04
+  Epoch 5/20  step 300/1563  loss=4.6465  lr=1.84e-04
+  Epoch 5/20  step 400/1563  loss=4.6519  lr=1.83e-04
+  Epoch 5/20  step 500/1563  loss=4.6538  lr=1.83e-04
+  Epoch 5/20  step 600/1563  loss=4.6536  lr=1.82e-04
+  Epoch 5/20  step 700/1563  loss=4.6502  lr=1.82e-04
+  Epoch 5/20  step 800/1563  loss=4.6476  lr=1.81e-04
+  Epoch 5/20  step 900/1563  loss=4.6495  lr=1.80e-04
+  Epoch 5/20  step 1000/1563  loss=4.6494  lr=1.80e-04
+  Epoch 5/20  step 1100/1563  loss=4.6485  lr=1.79e-04
+  Epoch 5/20  step 1200/1563  loss=4.6472  lr=1.78e-04
+  Epoch 5/20  step 1300/1563  loss=4.6465  lr=1.78e-04
+  Epoch 5/20  step 1400/1563  loss=4.6441  lr=1.77e-04
+  Epoch 5/20  step 1500/1563  loss=4.6445  lr=1.76e-04
+Epoch 5/20  train_loss=4.6429  lr=1.76e-04
+  val_loss=4.7641
+  Epoch 6/20  step 100/1563  loss=4.4902  lr=1.75e-04
+  Epoch 6/20  step 200/1563  loss=4.4914  lr=1.75e-04
+  Epoch 6/20  step 300/1563  loss=4.4965  lr=1.74e-04
+  Epoch 6/20  step 400/1563  loss=4.4975  lr=1.73e-04
+  Epoch 6/20  step 500/1563  loss=4.4979  lr=1.73e-04
+  Epoch 6/20  step 600/1563  loss=4.5014  lr=1.72e-04
+  Epoch 6/20  step 700/1563  loss=4.4978  lr=1.71e-04
+  Epoch 6/20  step 800/1563  loss=4.4998  lr=1.70e-04
+  Epoch 6/20  step 900/1563  loss=4.5001  lr=1.70e-04
+  Epoch 6/20  step 1000/1563  loss=4.5004  lr=1.69e-04
+  Epoch 6/20  step 1100/1563  loss=4.5016  lr=1.68e-04
+  Epoch 6/20  step 1200/1563  loss=4.5017  lr=1.67e-04
+  Epoch 6/20  step 1300/1563  loss=4.5019  lr=1.67e-04
+  Epoch 6/20  step 1400/1563  loss=4.5012  lr=1.66e-04
+  Epoch 6/20  step 1500/1563  loss=4.5011  lr=1.65e-04
+Epoch 6/20  train_loss=4.4997  lr=1.64e-04
+  val_loss=4.7122
+  Epoch 7/20  step 100/1563  loss=4.3495  lr=1.64e-04
+  Epoch 7/20  step 200/1563  loss=4.3533  lr=1.63e-04
+  Epoch 7/20  step 300/1563  loss=4.3524  lr=1.62e-04
+  Epoch 7/20  step 400/1563  loss=4.3537  lr=1.61e-04
+  Epoch 7/20  step 500/1563  loss=4.3550  lr=1.60e-04
+  Epoch 7/20  step 600/1563  loss=4.3576  lr=1.60e-04
+  Epoch 7/20  step 700/1563  loss=4.3617  lr=1.59e-04
+  Epoch 7/20  step 800/1563  loss=4.3639  lr=1.58e-04
+  Epoch 7/20  step 900/1563  loss=4.3657  lr=1.57e-04
+  Epoch 7/20  step 1000/1563  loss=4.3665  lr=1.56e-04
+  Epoch 7/20  step 1100/1563  loss=4.3653  lr=1.55e-04
+  Epoch 7/20  step 1200/1563  loss=4.3683  lr=1.55e-04
+  Epoch 7/20  step 1300/1563  loss=4.3692  lr=1.54e-04
+  Epoch 7/20  step 1400/1563  loss=4.3701  lr=1.53e-04
+  Epoch 7/20  step 1500/1563  loss=4.3706  lr=1.52e-04
+Epoch 7/20  train_loss=4.3693  lr=1.51e-04
+  val_loss=4.6799
+  Epoch 8/20  step 100/1563  loss=4.2104  lr=1.50e-04
+  Epoch 8/20  step 200/1563  loss=4.2115  lr=1.50e-04
+  Epoch 8/20  step 300/1563  loss=4.2270  lr=1.49e-04
+  Epoch 8/20  step 400/1563  loss=4.2294  lr=1.48e-04
+  Epoch 8/20  step 500/1563  loss=4.2289  lr=1.47e-04
+  Epoch 8/20  step 600/1563  loss=4.2332  lr=1.46e-04
+  Epoch 8/20  step 700/1563  loss=4.2385  lr=1.45e-04
+  Epoch 8/20  step 800/1563  loss=4.2388  lr=1.44e-04
+  Epoch 8/20  step 900/1563  loss=4.2385  lr=1.43e-04
+  Epoch 8/20  step 1000/1563  loss=4.2408  lr=1.42e-04
+  Epoch 8/20  step 1100/1563  loss=4.2445  lr=1.41e-04
+  Epoch 8/20  step 1200/1563  loss=4.2469  lr=1.40e-04
+  Epoch 8/20  step 1300/1563  loss=4.2473  lr=1.39e-04
+  Epoch 8/20  step 1400/1563  loss=4.2482  lr=1.38e-04
+  Epoch 8/20  step 1500/1563  loss=4.2495  lr=1.37e-04
+Epoch 8/20  train_loss=4.2506  lr=1.37e-04
+  val_loss=4.6703
+  Epoch 9/20  step 100/1563  loss=4.0852  lr=1.36e-04
+  Epoch 9/20  step 200/1563  loss=4.1010  lr=1.35e-04
+  Epoch 9/20  step 300/1563  loss=4.1041  lr=1.34e-04
+  Epoch 9/20  step 400/1563  loss=4.1116  lr=1.33e-04
+  Epoch 9/20  step 500/1563  loss=4.1162  lr=1.32e-04
+  Epoch 9/20  step 600/1563  loss=4.1186  lr=1.31e-04
+  Epoch 9/20  step 700/1563  loss=4.1205  lr=1.30e-04
+  Epoch 9/20  step 800/1563  loss=4.1229  lr=1.29e-04
+  Epoch 9/20  step 900/1563  loss=4.1277  lr=1.28e-04
+  Epoch 9/20  step 1000/1563  loss=4.1316  lr=1.27e-04
+  Epoch 9/20  step 1100/1563  loss=4.1332  lr=1.26e-04
+  Epoch 9/20  step 1200/1563  loss=4.1368  lr=1.25e-04
+  Epoch 9/20  step 1300/1563  loss=4.1383  lr=1.24e-04
+  Epoch 9/20  step 1400/1563  loss=4.1403  lr=1.23e-04
+  Epoch 9/20  step 1500/1563  loss=4.1413  lr=1.22e-04
+Epoch 9/20  train_loss=4.1433  lr=1.21e-04
+  val_loss=4.6563
+  Epoch 10/20  step 100/1563  loss=3.9955  lr=1.20e-04
+  Epoch 10/20  step 200/1563  loss=3.9958  lr=1.19e-04
+  Epoch 10/20  step 300/1563  loss=4.0080  lr=1.18e-04
+  Epoch 10/20  step 400/1563  loss=4.0118  lr=1.17e-04
+  Epoch 10/20  step 500/1563  loss=4.0182  lr=1.16e-04
+  Epoch 10/20  step 600/1563  loss=4.0228  lr=1.15e-04
+  Epoch 10/20  step 700/1563  loss=4.0245  lr=1.14e-04
+  Epoch 10/20  step 800/1563  loss=4.0243  lr=1.13e-04
+  Epoch 10/20  step 900/1563  loss=4.0296  lr=1.12e-04
+  Epoch 10/20  step 1000/1563  loss=4.0323  lr=1.11e-04
+  Epoch 10/20  step 1100/1563  loss=4.0344  lr=1.10e-04
+  Epoch 10/20  step 1200/1563  loss=4.0358  lr=1.09e-04
+  Epoch 10/20  step 1300/1563  loss=4.0379  lr=1.08e-04
+  Epoch 10/20  step 1400/1563  loss=4.0412  lr=1.07e-04
+  Epoch 10/20  step 1500/1563  loss=4.0426  lr=1.06e-04
+Epoch 10/20  train_loss=4.0442  lr=1.05e-04
+  val_loss=4.6621
+  Epoch 11/20  step 100/1563  loss=3.9034  lr=1.04e-04
+  Epoch 11/20  step 200/1563  loss=3.9020  lr=1.03e-04
+  Epoch 11/20  step 300/1563  loss=3.9080  lr=1.02e-04
+  Epoch 11/20  step 400/1563  loss=3.9148  lr=1.01e-04
+  Epoch 11/20  step 500/1563  loss=3.9180  lr=1.00e-04
+  Epoch 11/20  step 600/1563  loss=3.9195  lr=9.90e-05
+  Epoch 11/20  step 700/1563  loss=3.9236  lr=9.79e-05
+  Epoch 11/20  step 800/1563  loss=3.9283  lr=9.69e-05
+  Epoch 11/20  step 900/1563  loss=3.9342  lr=9.58e-05
+  Epoch 11/20  step 1000/1563  loss=3.9354  lr=9.48e-05
+  Epoch 11/20  step 1100/1563  loss=3.9398  lr=9.38e-05
+  Epoch 11/20  step 1200/1563  loss=3.9424  lr=9.27e-05
+  Epoch 11/20  step 1300/1563  loss=3.9457  lr=9.17e-05
+  Epoch 11/20  step 1400/1563  loss=3.9493  lr=9.07e-05
+  Epoch 11/20  step 1500/1563  loss=3.9507  lr=8.96e-05
+Epoch 11/20  train_loss=3.9514  lr=8.90e-05
+  val_loss=4.6675
+  Epoch 12/20  step 100/1563  loss=3.8061  lr=8.80e-05
+  Epoch 12/20  step 200/1563  loss=3.8221  lr=8.69e-05
+  Epoch 12/20  step 300/1563  loss=3.8231  lr=8.59e-05
+  Epoch 12/20  step 400/1563  loss=3.8290  lr=8.49e-05
+  Epoch 12/20  step 500/1563  loss=3.8345  lr=8.38e-05
+  Epoch 12/20  step 600/1563  loss=3.8410  lr=8.28e-05
+  Epoch 12/20  step 700/1563  loss=3.8470  lr=8.18e-05
+  Epoch 12/20  step 800/1563  loss=3.8524  lr=8.08e-05
+  Epoch 12/20  step 900/1563  loss=3.8552  lr=7.98e-05
+  Epoch 12/20  step 1000/1563  loss=3.8599  lr=7.87e-05
+  Epoch 12/20  step 1100/1563  loss=3.8618  lr=7.77e-05
+  Epoch 12/20  step 1200/1563  loss=3.8629  lr=7.67e-05
+  Epoch 12/20  step 1300/1563  loss=3.8640  lr=7.57e-05
+  Epoch 12/20  step 1400/1563  loss=3.8657  lr=7.47e-05
+  Epoch 12/20  step 1500/1563  loss=3.8668  lr=7.37e-05
+Epoch 12/20  train_loss=3.8679  lr=7.31e-05
+  val_loss=4.6752
+  Epoch 13/20  step 100/1563  loss=3.7285  lr=7.21e-05
+  Epoch 13/20  step 200/1563  loss=3.7454  lr=7.11e-05
+  Epoch 13/20  step 300/1563  loss=3.7560  lr=7.01e-05
+  Epoch 13/20  step 400/1563  loss=3.7635  lr=6.91e-05
+  Epoch 13/20  step 500/1563  loss=3.7660  lr=6.81e-05
+  Epoch 13/20  step 600/1563  loss=3.7683  lr=6.71e-05
+  Epoch 13/20  step 700/1563  loss=3.7712  lr=6.62e-05
+  Epoch 13/20  step 800/1563  loss=3.7757  lr=6.52e-05
+  Epoch 13/20  step 900/1563  loss=3.7780  lr=6.42e-05
+  Epoch 13/20  step 1000/1563  loss=3.7806  lr=6.32e-05
+  Epoch 13/20  step 1100/1563  loss=3.7836  lr=6.23e-05
+  Epoch 13/20  step 1200/1563  loss=3.7875  lr=6.13e-05
+  Epoch 13/20  step 1300/1563  loss=3.7885  lr=6.04e-05
+  Epoch 13/20  step 1400/1563  loss=3.7910  lr=5.94e-05
+  Epoch 13/20  step 1500/1563  loss=3.7925  lr=5.85e-05
+Epoch 13/20  train_loss=3.7947  lr=5.79e-05
+  val_loss=4.6899
+  Epoch 14/20  step 100/1563  loss=3.6874  lr=5.69e-05
+  Epoch 14/20  step 200/1563  loss=3.6943  lr=5.60e-05
+  Epoch 14/20  step 300/1563  loss=3.7003  lr=5.51e-05
+  Epoch 14/20  step 400/1563  loss=3.7022  lr=5.41e-05
+  Epoch 14/20  step 500/1563  loss=3.7065  lr=5.32e-05
+  Epoch 14/20  step 600/1563  loss=3.7061  lr=5.23e-05
+  Epoch 14/20  step 700/1563  loss=3.7104  lr=5.14e-05
+  Epoch 14/20  step 800/1563  loss=3.7150  lr=5.05e-05
+  Epoch 14/20  step 900/1563  loss=3.7201  lr=4.96e-05
+  Epoch 14/20  step 1000/1563  loss=3.7203  lr=4.87e-05
+  Epoch 14/20  step 1100/1563  loss=3.7204  lr=4.78e-05
+  Epoch 14/20  step 1200/1563  loss=3.7217  lr=4.69e-05
+  Epoch 14/20  step 1300/1563  loss=3.7244  lr=4.60e-05
+  Epoch 14/20  step 1400/1563  loss=3.7260  lr=4.52e-05
+  Epoch 14/20  step 1500/1563  loss=3.7264  lr=4.43e-05
+Epoch 14/20  train_loss=3.7287  lr=4.38e-05
+  val_loss=4.6981
+  Epoch 15/20  step 100/1563  loss=3.6340  lr=4.29e-05
+  Epoch 15/20  step 200/1563  loss=3.6465  lr=4.21e-05
+  Epoch 15/20  step 300/1563  loss=3.6522  lr=4.12e-05
+  Epoch 15/20  step 400/1563  loss=3.6575  lr=4.04e-05
+  Epoch 15/20  step 500/1563  loss=3.6620  lr=3.96e-05
+  Epoch 15/20  step 600/1563  loss=3.6613  lr=3.87e-05
+  Epoch 15/20  step 700/1563  loss=3.6642  lr=3.79e-05
+  Epoch 15/20  step 800/1563  loss=3.6647  lr=3.71e-05
+  Epoch 15/20  step 900/1563  loss=3.6657  lr=3.63e-05
+  Epoch 15/20  step 1000/1563  loss=3.6684  lr=3.55e-05
+  Epoch 15/20  step 1100/1563  loss=3.6710  lr=3.47e-05
+  Epoch 15/20  step 1200/1563  loss=3.6733  lr=3.39e-05
+  Epoch 15/20  step 1300/1563  loss=3.6744  lr=3.32e-05
+  Epoch 15/20  step 1400/1563  loss=3.6740  lr=3.24e-05
+  Epoch 15/20  step 1500/1563  loss=3.6747  lr=3.16e-05
+Epoch 15/20  train_loss=3.6760  lr=3.11e-05
+  val_loss=4.7130
+  Epoch 16/20  step 100/1563  loss=3.6077  lr=3.04e-05
+  Epoch 16/20  step 200/1563  loss=3.6119  lr=2.97e-05
+  Epoch 16/20  step 300/1563  loss=3.6136  lr=2.89e-05
+  Epoch 16/20  step 400/1563  loss=3.6135  lr=2.82e-05
+  Epoch 16/20  step 500/1563  loss=3.6171  lr=2.75e-05
+  Epoch 16/20  step 600/1563  loss=3.6197  lr=2.68e-05
+  Epoch 16/20  step 700/1563  loss=3.6226  lr=2.61e-05
+  Epoch 16/20  step 800/1563  loss=3.6188  lr=2.54e-05
+  Epoch 16/20  step 900/1563  loss=3.6236  lr=2.47e-05
+  Epoch 16/20  step 1000/1563  loss=3.6264  lr=2.40e-05
+  Epoch 16/20  step 1100/1563  loss=3.6295  lr=2.33e-05
+  Epoch 16/20  step 1200/1563  loss=3.6298  lr=2.27e-05
+  Epoch 16/20  step 1300/1563  loss=3.6300  lr=2.20e-05
+  Epoch 16/20  step 1400/1563  loss=3.6323  lr=2.14e-05
+  Epoch 16/20  step 1500/1563  loss=3.6323  lr=2.07e-05
+Epoch 16/20  train_loss=3.6328  lr=2.03e-05
+  val_loss=4.7156
+  Epoch 17/20  step 100/1563  loss=3.5973  lr=1.97e-05
+  Epoch 17/20  step 200/1563  loss=3.5925  lr=1.91e-05
+  Epoch 17/20  step 300/1563  loss=3.5962  lr=1.85e-05
+  Epoch 17/20  step 400/1563  loss=3.5978  lr=1.79e-05
+  Epoch 17/20  step 500/1563  loss=3.6029  lr=1.73e-05
+  Epoch 17/20  step 600/1563  loss=3.5994  lr=1.67e-05
+  Epoch 17/20  step 700/1563  loss=3.5989  lr=1.62e-05
+  Epoch 17/20  step 800/1563  loss=3.5957  lr=1.56e-05
+  Epoch 17/20  step 900/1563  loss=3.5946  lr=1.50e-05
+  Epoch 17/20  step 1000/1563  loss=3.5959  lr=1.45e-05
+  Epoch 17/20  step 1100/1563  loss=3.5973  lr=1.40e-05
+  Epoch 17/20  step 1200/1563  loss=3.5983  lr=1.34e-05
+  Epoch 17/20  step 1300/1563  loss=3.5974  lr=1.29e-05
+  Epoch 17/20  step 1400/1563  loss=3.5982  lr=1.24e-05
+  Epoch 17/20  step 1500/1563  loss=3.5969  lr=1.19e-05
+Epoch 17/20  train_loss=3.5980  lr=1.16e-05
+  val_loss=4.7211
+  Epoch 18/20  step 100/1563  loss=3.5517  lr=1.11e-05
+  Epoch 18/20  step 200/1563  loss=3.5690  lr=1.07e-05
+  Epoch 18/20  step 300/1563  loss=3.5725  lr=1.02e-05
+  Epoch 18/20  step 400/1563  loss=3.5701  lr=9.75e-06
+  Epoch 18/20  step 500/1563  loss=3.5694  lr=9.31e-06
+  Epoch 18/20  step 600/1563  loss=3.5703  lr=8.88e-06
+  Epoch 18/20  step 700/1563  loss=3.5720  lr=8.45e-06
+  Epoch 18/20  step 800/1563  loss=3.5704  lr=8.04e-06
+  Epoch 18/20  step 900/1563  loss=3.5743  lr=7.64e-06
+  Epoch 18/20  step 1000/1563  loss=3.5762  lr=7.24e-06
+  Epoch 18/20  step 1100/1563  loss=3.5754  lr=6.86e-06
+  Epoch 18/20  step 1200/1563  loss=3.5760  lr=6.49e-06
+  Epoch 18/20  step 1300/1563  loss=3.5753  lr=6.13e-06
+  Epoch 18/20  step 1400/1563  loss=3.5737  lr=5.77e-06
+  Epoch 18/20  step 1500/1563  loss=3.5741  lr=5.43e-06
+Epoch 18/20  train_loss=3.5748  lr=5.22e-06
+  val_loss=4.7206
+  Epoch 19/20  step 100/1563  loss=3.5529  lr=4.89e-06
+  Epoch 19/20  step 200/1563  loss=3.5504  lr=4.58e-06
+  Epoch 19/20  step 300/1563  loss=3.5412  lr=4.27e-06
+  Epoch 19/20  step 400/1563  loss=3.5434  lr=3.98e-06
+  Epoch 19/20  step 500/1563  loss=3.5447  lr=3.69e-06
+  Epoch 19/20  step 600/1563  loss=3.5486  lr=3.42e-06
+  Epoch 19/20  step 700/1563  loss=3.5523  lr=3.16e-06
+  Epoch 19/20  step 800/1563  loss=3.5539  lr=2.90e-06
+  Epoch 19/20  step 900/1563  loss=3.5538  lr=2.66e-06
+  Epoch 19/20  step 1000/1563  loss=3.5555  lr=2.43e-06
+  Epoch 19/20  step 1100/1563  loss=3.5570  lr=2.20e-06
+  Epoch 19/20  step 1200/1563  loss=3.5604  lr=1.99e-06
+  Epoch 19/20  step 1300/1563  loss=3.5610  lr=1.79e-06
+  Epoch 19/20  step 1400/1563  loss=3.5608  lr=1.60e-06
+  Epoch 19/20  step 1500/1563  loss=3.5605  lr=1.42e-06
+Epoch 19/20  train_loss=3.5608  lr=1.31e-06
+  val_loss=4.7230
+  Epoch 20/20  step 100/1563  loss=3.5402  lr=1.15e-06
+  Epoch 20/20  step 200/1563  loss=3.5338  lr=1.00e-06
+  Epoch 20/20  step 300/1563  loss=3.5392  lr=8.58e-07
+  Epoch 20/20  step 400/1563  loss=3.5430  lr=7.28e-07
+  Epoch 20/20  step 500/1563  loss=3.5453  lr=6.08e-07
+  Epoch 20/20  step 600/1563  loss=3.5463  lr=4.99e-07
+  Epoch 20/20  step 700/1563  loss=3.5463  lr=4.01e-07
+  Epoch 20/20  step 800/1563  loss=3.5513  lr=3.14e-07
+  Epoch 20/20  step 900/1563  loss=3.5521  lr=2.37e-07
+  Epoch 20/20  step 1000/1563  loss=3.5499  lr=1.71e-07
+  Epoch 20/20  step 1100/1563  loss=3.5502  lr=1.16e-07
+  Epoch 20/20  step 1200/1563  loss=3.5510  lr=7.10e-08
+  Epoch 20/20  step 1300/1563  loss=3.5516  lr=3.73e-08
+  Epoch 20/20  step 1400/1563  loss=3.5524  lr=1.43e-08
+  Epoch 20/20  step 1500/1563  loss=3.5539  lr=2.14e-09
+Epoch 20/20  train_loss=3.5532  lr=0.00e+00
+  val_loss=4.7231
+
+
+
+  (.venv) mit@mit-HP-Z2-Tower-G9-Workstation-Desktop-PC:~/DEADSERPENT/commit_message_generator$ python3 -m src.train --config configs/default.yaml 
+Tokenizer loaded.
+Dataset loaded: 50000 train samples.
+Model: seq2seq | Device: cuda | Vocab: 8000
+Starting training: 20 epochs, 1563 batches/epoch, 31260 total steps
+(CUDA warm-up on first batch may take ~30s — this is normal)
+  Epoch 1/20  step 100/1563  loss=8.9655  lr=2.00e-05
+  Epoch 1/20  step 200/1563  loss=8.1024  lr=4.00e-05
+  Epoch 1/20  step 300/1563  loss=7.6423  lr=6.00e-05
+  Epoch 1/20  step 400/1563  loss=7.4009  lr=8.00e-05
+  Epoch 1/20  step 500/1563  loss=7.2568  lr=1.00e-04
+  Epoch 1/20  step 600/1563  loss=7.1552  lr=1.20e-04
+  Epoch 1/20  step 700/1563  loss=7.0797  lr=1.40e-04
+  Epoch 1/20  step 800/1563  loss=7.0240  lr=1.60e-04
+  Epoch 1/20  step 900/1563  loss=6.9801  lr=1.80e-04
+  Epoch 1/20  step 1000/1563  loss=6.9402  lr=2.00e-04
+  Epoch 1/20  step 1100/1563  loss=6.8972  lr=2.00e-04
+  Epoch 1/20  step 1200/1563  loss=6.8557  lr=2.00e-04
+  Epoch 1/20  step 1300/1563  loss=6.8166  lr=2.00e-04
+  Epoch 1/20  step 1400/1563  loss=6.7798  lr=2.00e-04
+  Epoch 1/20  step 1500/1563  loss=6.7442  lr=2.00e-04
+Epoch 1/20  train_loss=6.7219  lr=2.00e-04
+  val_loss=6.1152
+  Epoch 2/20  step 100/1563  loss=6.1028  lr=2.00e-04
+  Epoch 2/20  step 200/1563  loss=6.0804  lr=2.00e-04
+  Epoch 2/20  step 300/1563  loss=6.0533  lr=2.00e-04
+  Epoch 2/20  step 400/1563  loss=6.0327  lr=2.00e-04
+  Epoch 2/20  step 500/1563  loss=6.0130  lr=1.99e-04
+  Epoch 2/20  step 600/1563  loss=5.9982  lr=1.99e-04
+  Epoch 2/20  step 700/1563  loss=5.9827  lr=1.99e-04
+  Epoch 2/20  step 800/1563  loss=5.9686  lr=1.99e-04
+  Epoch 2/20  step 900/1563  loss=5.9567  lr=1.99e-04
+  Epoch 2/20  step 1000/1563  loss=5.9427  lr=1.99e-04
+  Epoch 2/20  step 1100/1563  loss=5.9309  lr=1.99e-04
+  Epoch 2/20  step 1200/1563  loss=5.9186  lr=1.98e-04
+  Epoch 2/20  step 1300/1563  loss=5.9088  lr=1.98e-04
+  Epoch 2/20  step 1400/1563  loss=5.8976  lr=1.98e-04
+  Epoch 2/20  step 1500/1563  loss=5.8868  lr=1.98e-04
+Epoch 2/20  train_loss=5.8801  lr=1.98e-04
+  val_loss=5.6793
+  Epoch 3/20  step 100/1563  loss=5.6595  lr=1.97e-04
+  Epoch 3/20  step 200/1563  loss=5.6548  lr=1.97e-04
+  Epoch 3/20  step 300/1563  loss=5.6449  lr=1.97e-04
+  Epoch 3/20  step 400/1563  loss=5.6442  lr=1.97e-04
+  Epoch 3/20  step 500/1563  loss=5.6391  lr=1.96e-04
+  Epoch 3/20  step 600/1563  loss=5.6330  lr=1.96e-04
+  Epoch 3/20  step 700/1563  loss=5.6299  lr=1.96e-04
+  Epoch 3/20  step 800/1563  loss=5.6227  lr=1.95e-04
+  Epoch 3/20  step 900/1563  loss=5.6183  lr=1.95e-04
+  Epoch 3/20  step 1000/1563  loss=5.6119  lr=1.95e-04
+  Epoch 3/20  step 1100/1563  loss=5.6075  lr=1.94e-04
+  Epoch 3/20  step 1200/1563  loss=5.6014  lr=1.94e-04
+  Epoch 3/20  step 1300/1563  loss=5.5958  lr=1.94e-04
+  Epoch 3/20  step 1400/1563  loss=5.5913  lr=1.93e-04
+  Epoch 3/20  step 1500/1563  loss=5.5869  lr=1.93e-04
+Epoch 3/20  train_loss=5.5826  lr=1.93e-04
+  val_loss=5.4918
+  Epoch 4/20  step 100/1563  loss=5.4063  lr=1.92e-04
+  Epoch 4/20  step 200/1563  loss=5.4094  lr=1.92e-04
+  Epoch 4/20  step 300/1563  loss=5.4148  lr=1.92e-04
+  Epoch 4/20  step 400/1563  loss=5.4163  lr=1.91e-04
+  Epoch 4/20  step 500/1563  loss=5.4141  lr=1.91e-04
+  Epoch 4/20  step 600/1563  loss=5.4095  lr=1.90e-04
+  Epoch 4/20  step 700/1563  loss=5.4064  lr=1.90e-04
+  Epoch 4/20  step 800/1563  loss=5.4048  lr=1.89e-04
+  Epoch 4/20  step 900/1563  loss=5.4010  lr=1.89e-04
+  Epoch 4/20  step 1000/1563  loss=5.3983  lr=1.88e-04
+  Epoch 4/20  step 1100/1563  loss=5.3947  lr=1.88e-04
+  Epoch 4/20  step 1200/1563  loss=5.3921  lr=1.87e-04
+  Epoch 4/20  step 1300/1563  loss=5.3893  lr=1.87e-04
+  Epoch 4/20  step 1400/1563  loss=5.3858  lr=1.86e-04
+  Epoch 4/20  step 1500/1563  loss=5.3840  lr=1.86e-04
+Epoch 4/20  train_loss=5.3826  lr=1.85e-04
+  val_loss=5.3623
+  Epoch 5/20  step 100/1563  loss=5.2372  lr=1.85e-04
+  Epoch 5/20  step 200/1563  loss=5.2366  lr=1.84e-04
+  Epoch 5/20  step 300/1563  loss=5.2317  lr=1.84e-04
+  Epoch 5/20  step 400/1563  loss=5.2303  lr=1.83e-04
+  Epoch 5/20  step 500/1563  loss=5.2319  lr=1.83e-04
+  Epoch 5/20  step 600/1563  loss=5.2332  lr=1.82e-04
+  Epoch 5/20  step 700/1563  loss=5.2285  lr=1.82e-04
+  Epoch 5/20  step 800/1563  loss=5.2273  lr=1.81e-04
+  Epoch 5/20  step 900/1563  loss=5.2258  lr=1.80e-04
+  Epoch 5/20  step 1000/1563  loss=5.2245  lr=1.80e-04
+  Epoch 5/20  step 1100/1563  loss=5.2226  lr=1.79e-04
+  Epoch 5/20  step 1200/1563  loss=5.2204  lr=1.78e-04
+  Epoch 5/20  step 1300/1563  loss=5.2174  lr=1.78e-04
+  Epoch 5/20  step 1400/1563  loss=5.2172  lr=1.77e-04
+  Epoch 5/20  step 1500/1563  loss=5.2137  lr=1.76e-04
+Epoch 5/20  train_loss=5.2118  lr=1.76e-04
+  val_loss=5.2562
+  Epoch 6/20  step 100/1563  loss=5.0684  lr=1.75e-04
+  Epoch 6/20  step 200/1563  loss=5.0590  lr=1.75e-04
+  Epoch 6/20  step 300/1563  loss=5.0652  lr=1.74e-04
+  Epoch 6/20  step 400/1563  loss=5.0717  lr=1.73e-04
+  Epoch 6/20  step 500/1563  loss=5.0685  lr=1.73e-04
+  Epoch 6/20  step 600/1563  loss=5.0669  lr=1.72e-04
+  Epoch 6/20  step 700/1563  loss=5.0672  lr=1.71e-04
+  Epoch 6/20  step 800/1563  loss=5.0651  lr=1.70e-04
+  Epoch 6/20  step 900/1563  loss=5.0679  lr=1.70e-04
+  Epoch 6/20  step 1000/1563  loss=5.0648  lr=1.69e-04
+  Epoch 6/20  step 1100/1563  loss=5.0630  lr=1.68e-04
+  Epoch 6/20  step 1200/1563  loss=5.0629  lr=1.67e-04
+  Epoch 6/20  step 1300/1563  loss=5.0627  lr=1.67e-04
+  Epoch 6/20  step 1400/1563  loss=5.0609  lr=1.66e-04
+  Epoch 6/20  step 1500/1563  loss=5.0597  lr=1.65e-04
+Epoch 6/20  train_loss=5.0595  lr=1.64e-04
+  val_loss=5.1852
+  Epoch 7/20  step 100/1563  loss=4.8922  lr=1.64e-04
+  Epoch 7/20  step 200/1563  loss=4.8934  lr=1.63e-04
+  Epoch 7/20  step 300/1563  loss=4.9012  lr=1.62e-04
+  Epoch 7/20  step 400/1563  loss=4.9070  lr=1.61e-04
+  Epoch 7/20  step 500/1563  loss=4.9049  lr=1.60e-04
+  Epoch 7/20  step 600/1563  loss=4.9064  lr=1.60e-04
+  Epoch 7/20  step 700/1563  loss=4.9099  lr=1.59e-04
+  Epoch 7/20  step 800/1563  loss=4.9129  lr=1.58e-04
+  Epoch 7/20  step 900/1563  loss=4.9153  lr=1.57e-04
+  Epoch 7/20  step 1000/1563  loss=4.9167  lr=1.56e-04
+  Epoch 7/20  step 1100/1563  loss=4.9169  lr=1.55e-04
+  Epoch 7/20  step 1200/1563  loss=4.9179  lr=1.55e-04
+  Epoch 7/20  step 1300/1563  loss=4.9191  lr=1.54e-04
+  Epoch 7/20  step 1400/1563  loss=4.9203  lr=1.53e-04
+  Epoch 7/20  step 1500/1563  loss=4.9206  lr=1.52e-04
+Epoch 7/20  train_loss=4.9197  lr=1.51e-04
+  val_loss=5.1299
+  Epoch 8/20  step 100/1563  loss=4.7612  lr=1.50e-04
+  Epoch 8/20  step 200/1563  loss=4.7549  lr=1.50e-04
+  Epoch 8/20  step 300/1563  loss=4.7655  lr=1.49e-04
+  Epoch 8/20  step 400/1563  loss=4.7660  lr=1.48e-04
+  Epoch 8/20  step 500/1563  loss=4.7682  lr=1.47e-04
+  Epoch 8/20  step 600/1563  loss=4.7739  lr=1.46e-04
+  Epoch 8/20  step 700/1563  loss=4.7822  lr=1.45e-04
+  Epoch 8/20  step 800/1563  loss=4.7830  lr=1.44e-04
+  Epoch 8/20  step 900/1563  loss=4.7858  lr=1.43e-04
+  Epoch 8/20  step 1000/1563  loss=4.7853  lr=1.42e-04
+  Epoch 8/20  step 1100/1563  loss=4.7878  lr=1.41e-04
+  Epoch 8/20  step 1200/1563  loss=4.7889  lr=1.40e-04
+  Epoch 8/20  step 1300/1563  loss=4.7897  lr=1.39e-04
+  Epoch 8/20  step 1400/1563  loss=4.7894  lr=1.38e-04
+  Epoch 8/20  step 1500/1563  loss=4.7900  lr=1.37e-04
+Epoch 8/20  train_loss=4.7903  lr=1.37e-04
+  val_loss=5.1054
+  Epoch 9/20  step 100/1563  loss=4.6636  lr=1.36e-04
+  Epoch 9/20  step 200/1563  loss=4.6478  lr=1.35e-04
+  Epoch 9/20  step 300/1563  loss=4.6528  lr=1.34e-04
+  Epoch 9/20  step 400/1563  loss=4.6593  lr=1.33e-04
+  Epoch 9/20  step 500/1563  loss=4.6632  lr=1.32e-04
+  Epoch 9/20  step 600/1563  loss=4.6625  lr=1.31e-04
+  Epoch 9/20  step 700/1563  loss=4.6591  lr=1.30e-04
+  Epoch 9/20  step 800/1563  loss=4.6637  lr=1.29e-04
+  Epoch 9/20  step 900/1563  loss=4.6660  lr=1.28e-04
+  Epoch 9/20  step 1000/1563  loss=4.6675  lr=1.27e-04
+  Epoch 9/20  step 1100/1563  loss=4.6679  lr=1.26e-04
+  Epoch 9/20  step 1200/1563  loss=4.6688  lr=1.25e-04
+  Epoch 9/20  step 1300/1563  loss=4.6707  lr=1.24e-04
+  Epoch 9/20  step 1400/1563  loss=4.6716  lr=1.23e-04
+  Epoch 9/20  step 1500/1563  loss=4.6713  lr=1.22e-04
+Epoch 9/20  train_loss=4.6721  lr=1.21e-04
+  val_loss=5.0940
+  Epoch 10/20  step 100/1563  loss=4.5123  lr=1.20e-04
+  Epoch 10/20  step 200/1563  loss=4.5191  lr=1.19e-04
+  Epoch 10/20  step 300/1563  loss=4.5241  lr=1.18e-04
+  Epoch 10/20  step 400/1563  loss=4.5261  lr=1.17e-04
+  Epoch 10/20  step 500/1563  loss=4.5307  lr=1.16e-04
+  Epoch 10/20  step 600/1563  loss=4.5395  lr=1.15e-04
+  Epoch 10/20  step 700/1563  loss=4.5448  lr=1.14e-04
+  Epoch 10/20  step 800/1563  loss=4.5456  lr=1.13e-04
+  Epoch 10/20  step 900/1563  loss=4.5496  lr=1.12e-04
+  Epoch 10/20  step 1000/1563  loss=4.5516  lr=1.11e-04
+  Epoch 10/20  step 1100/1563  loss=4.5547  lr=1.10e-04
+  Epoch 10/20  step 1200/1563  loss=4.5580  lr=1.09e-04
+  Epoch 10/20  step 1300/1563  loss=4.5602  lr=1.08e-04
+  Epoch 10/20  step 1400/1563  loss=4.5616  lr=1.07e-04
+  Epoch 10/20  step 1500/1563  loss=4.5620  lr=1.06e-04
+Epoch 10/20  train_loss=4.5630  lr=1.05e-04
+  val_loss=5.0818
+  Epoch 11/20  step 100/1563  loss=4.4187  lr=1.04e-04
+  Epoch 11/20  step 200/1563  loss=4.4320  lr=1.03e-04
+  Epoch 11/20  step 300/1563  loss=4.4397  lr=1.02e-04
+  Epoch 11/20  step 400/1563  loss=4.4464  lr=1.01e-04
+  Epoch 11/20  step 500/1563  loss=4.4455  lr=1.00e-04
+  Epoch 11/20  step 600/1563  loss=4.4471  lr=9.90e-05
+  Epoch 11/20  step 700/1563  loss=4.4489  lr=9.79e-05
+  Epoch 11/20  step 800/1563  loss=4.4553  lr=9.69e-05
+  Epoch 11/20  step 900/1563  loss=4.4559  lr=9.58e-05
+  Epoch 11/20  step 1000/1563  loss=4.4559  lr=9.48e-05
+  Epoch 11/20  step 1100/1563  loss=4.4576  lr=9.38e-05
+  Epoch 11/20  step 1200/1563  loss=4.4561  lr=9.27e-05
+  Epoch 11/20  step 1300/1563  loss=4.4603  lr=9.17e-05
+  Epoch 11/20  step 1400/1563  loss=4.4611  lr=9.07e-05
+  Epoch 11/20  step 1500/1563  loss=4.4638  lr=8.96e-05
+Epoch 11/20  train_loss=4.4634  lr=8.90e-05
+  val_loss=5.0822
+  Epoch 12/20  step 100/1563  loss=4.3540  lr=8.80e-05
+  Epoch 12/20  step 200/1563  loss=4.3485  lr=8.69e-05
+  Epoch 12/20  step 300/1563  loss=4.3451  lr=8.59e-05
+  Epoch 12/20  step 400/1563  loss=4.3549  lr=8.49e-05
+  Epoch 12/20  step 500/1563  loss=4.3543  lr=8.38e-05
+  Epoch 12/20  step 600/1563  loss=4.3536  lr=8.28e-05
+  Epoch 12/20  step 700/1563  loss=4.3554  lr=8.18e-05
+  Epoch 12/20  step 800/1563  loss=4.3604  lr=8.08e-05
+  Epoch 12/20  step 900/1563  loss=4.3634  lr=7.98e-05
+  Epoch 12/20  step 1000/1563  loss=4.3649  lr=7.87e-05
+  Epoch 12/20  step 1100/1563  loss=4.3677  lr=7.77e-05
+  Epoch 12/20  step 1200/1563  loss=4.3698  lr=7.67e-05
+  Epoch 12/20  step 1300/1563  loss=4.3723  lr=7.57e-05
+  Epoch 12/20  step 1400/1563  loss=4.3721  lr=7.47e-05
+  Epoch 12/20  step 1500/1563  loss=4.3742  lr=7.37e-05
+Epoch 12/20  train_loss=4.3753  lr=7.31e-05
+  val_loss=5.0830
+  Epoch 13/20  step 100/1563  loss=4.2621  lr=7.21e-05
+  Epoch 13/20  step 200/1563  loss=4.2689  lr=7.11e-05
+  Epoch 13/20  step 300/1563  loss=4.2800  lr=7.01e-05
+  Epoch 13/20  step 400/1563  loss=4.2804  lr=6.91e-05
+  Epoch 13/20  step 500/1563  loss=4.2812  lr=6.81e-05
+  Epoch 13/20  step 600/1563  loss=4.2876  lr=6.71e-05
+  Epoch 13/20  step 700/1563  loss=4.2844  lr=6.62e-05
+  Epoch 13/20  step 800/1563  loss=4.2893  lr=6.52e-05
+  Epoch 13/20  step 900/1563  loss=4.2904  lr=6.42e-05
+  Epoch 13/20  step 1000/1563  loss=4.2913  lr=6.32e-05
+  Epoch 13/20  step 1100/1563  loss=4.2912  lr=6.23e-05
+  Epoch 13/20  step 1200/1563  loss=4.2932  lr=6.13e-05
+  Epoch 13/20  step 1300/1563  loss=4.2945  lr=6.04e-05
+  Epoch 13/20  step 1400/1563  loss=4.2958  lr=5.94e-05
+  Epoch 13/20  step 1500/1563  loss=4.2974  lr=5.85e-05
+Epoch 13/20  train_loss=4.2973  lr=5.79e-05
+  val_loss=5.0881
+  Epoch 14/20  step 100/1563  loss=4.1957  lr=5.69e-05
+  Epoch 14/20  step 200/1563  loss=4.1990  lr=5.60e-05
+  Epoch 14/20  step 300/1563  loss=4.2136  lr=5.51e-05
+  Epoch 14/20  step 400/1563  loss=4.2106  lr=5.41e-05
+  Epoch 14/20  step 500/1563  loss=4.2115  lr=5.32e-05
+  Epoch 14/20  step 600/1563  loss=4.2146  lr=5.23e-05
+  Epoch 14/20  step 700/1563  loss=4.2158  lr=5.14e-05
+  Epoch 14/20  step 800/1563  loss=4.2191  lr=5.05e-05
+  Epoch 14/20  step 900/1563  loss=4.2214  lr=4.96e-05
+  Epoch 14/20  step 1000/1563  loss=4.2211  lr=4.87e-05
+  Epoch 14/20  step 1100/1563  loss=4.2212  lr=4.78e-05
+  Epoch 14/20  step 1200/1563  loss=4.2228  lr=4.69e-05
+  Epoch 14/20  step 1300/1563  loss=4.2240  lr=4.60e-05
+  Epoch 14/20  step 1400/1563  loss=4.2255  lr=4.52e-05
+  Epoch 14/20  step 1500/1563  loss=4.2274  lr=4.43e-05
+Epoch 14/20  train_loss=4.2284  lr=4.38e-05
+  val_loss=5.0936
+  Epoch 15/20  step 100/1563  loss=4.1435  lr=4.29e-05
+  Epoch 15/20  step 200/1563  loss=4.1343  lr=4.21e-05
+  Epoch 15/20  step 300/1563  loss=4.1488  lr=4.12e-05
+  Epoch 15/20  step 400/1563  loss=4.1459  lr=4.04e-05
+  Epoch 15/20  step 500/1563  loss=4.1504  lr=3.96e-05
+  Epoch 15/20  step 600/1563  loss=4.1513  lr=3.87e-05
+  Epoch 15/20  step 700/1563  loss=4.1544  lr=3.79e-05
+  Epoch 15/20  step 800/1563  loss=4.1591  lr=3.71e-05
+  Epoch 15/20  step 900/1563  loss=4.1612  lr=3.63e-05
+  Epoch 15/20  step 1000/1563  loss=4.1621  lr=3.55e-05
+  Epoch 15/20  step 1100/1563  loss=4.1662  lr=3.47e-05
+  Epoch 15/20  step 1200/1563  loss=4.1692  lr=3.39e-05
+  Epoch 15/20  step 1300/1563  loss=4.1708  lr=3.32e-05
+  Epoch 15/20  step 1400/1563  loss=4.1715  lr=3.24e-05
+  Epoch 15/20  step 1500/1563  loss=4.1720  lr=3.16e-05
+Epoch 15/20  train_loss=4.1722  lr=3.11e-05
+  val_loss=5.0971
+  Epoch 16/20  step 100/1563  loss=4.1073  lr=3.04e-05
+  Epoch 16/20  step 200/1563  loss=4.1075  lr=2.97e-05
+  Epoch 16/20  step 300/1563  loss=4.1119  lr=2.89e-05
+  Epoch 16/20  step 400/1563  loss=4.1151  lr=2.82e-05
+  Epoch 16/20  step 500/1563  loss=4.1153  lr=2.75e-05
+  Epoch 16/20  step 600/1563  loss=4.1148  lr=2.68e-05
+  Epoch 16/20  step 700/1563  loss=4.1175  lr=2.61e-05
+  Epoch 16/20  step 800/1563  loss=4.1182  lr=2.54e-05
+  Epoch 16/20  step 900/1563  loss=4.1202  lr=2.47e-05
+  Epoch 16/20  step 1000/1563  loss=4.1218  lr=2.40e-05
+  Epoch 16/20  step 1100/1563  loss=4.1243  lr=2.33e-05
+  Epoch 16/20  step 1200/1563  loss=4.1261  lr=2.27e-05
+  Epoch 16/20  step 1300/1563  loss=4.1265  lr=2.20e-05
+  Epoch 16/20  step 1400/1563  loss=4.1271  lr=2.14e-05
+  Epoch 16/20  step 1500/1563  loss=4.1267  lr=2.07e-05
+Epoch 16/20  train_loss=4.1276  lr=2.03e-05
+  val_loss=5.1028
+  Epoch 17/20  step 100/1563  loss=4.0890  lr=1.97e-05
+  Epoch 17/20  step 200/1563  loss=4.0617  lr=1.91e-05
+  Epoch 17/20  step 300/1563  loss=4.0705  lr=1.85e-05
+  Epoch 17/20  step 400/1563  loss=4.0772  lr=1.79e-05
+  Epoch 17/20  step 500/1563  loss=4.0823  lr=1.73e-05
+  Epoch 17/20  step 600/1563  loss=4.0818  lr=1.67e-05
+  Epoch 17/20  step 700/1563  loss=4.0830  lr=1.62e-05
+  Epoch 17/20  step 800/1563  loss=4.0833  lr=1.56e-05
+  Epoch 17/20  step 900/1563  loss=4.0844  lr=1.50e-05
+  Epoch 17/20  step 1000/1563  loss=4.0868  lr=1.45e-05
+  Epoch 17/20  step 1100/1563  loss=4.0881  lr=1.40e-05
+  Epoch 17/20  step 1200/1563  loss=4.0884  lr=1.34e-05
+  Epoch 17/20  step 1300/1563  loss=4.0910  lr=1.29e-05
+  Epoch 17/20  step 1400/1563  loss=4.0921  lr=1.24e-05
+  Epoch 17/20  step 1500/1563  loss=4.0921  lr=1.19e-05
+Epoch 17/20  train_loss=4.0941  lr=1.16e-05
+  val_loss=5.1053
+  Epoch 18/20  step 100/1563  loss=4.0684  lr=1.11e-05
+  Epoch 18/20  step 200/1563  loss=4.0563  lr=1.07e-05
+  Epoch 18/20  step 300/1563  loss=4.0598  lr=1.02e-05
+  Epoch 18/20  step 400/1563  loss=4.0629  lr=9.75e-06
+  Epoch 18/20  step 500/1563  loss=4.0644  lr=9.31e-06
+  Epoch 18/20  step 600/1563  loss=4.0689  lr=8.88e-06
+  Epoch 18/20  step 700/1563  loss=4.0676  lr=8.45e-06
+  Epoch 18/20  step 800/1563  loss=4.0694  lr=8.04e-06
+  Epoch 18/20  step 900/1563  loss=4.0699  lr=7.64e-06
+  Epoch 18/20  step 1000/1563  loss=4.0678  lr=7.24e-06
+  Epoch 18/20  step 1100/1563  loss=4.0670  lr=6.86e-06
+  Epoch 18/20  step 1200/1563  loss=4.0674  lr=6.49e-06
+  Epoch 18/20  step 1300/1563  loss=4.0693  lr=6.13e-06
+  Epoch 18/20  step 1400/1563  loss=4.0695  lr=5.77e-06
+  Epoch 18/20  step 1500/1563  loss=4.0698  lr=5.43e-06
+Epoch 18/20  train_loss=4.0708  lr=5.22e-06
+  val_loss=5.1070
+  Epoch 19/20  step 100/1563  loss=4.0475  lr=4.89e-06
+  Epoch 19/20  step 200/1563  loss=4.0449  lr=4.58e-06
+  Epoch 19/20  step 300/1563  loss=4.0447  lr=4.27e-06
+  Epoch 19/20  step 400/1563  loss=4.0459  lr=3.98e-06
+  Epoch 19/20  step 500/1563  loss=4.0454  lr=3.69e-06
+  Epoch 19/20  step 600/1563  loss=4.0485  lr=3.42e-06
+  Epoch 19/20  step 700/1563  loss=4.0474  lr=3.16e-06
+  Epoch 19/20  step 800/1563  loss=4.0481  lr=2.90e-06
+  Epoch 19/20  step 900/1563  loss=4.0488  lr=2.66e-06
+  Epoch 19/20  step 1000/1563  loss=4.0510  lr=2.43e-06
+  Epoch 19/20  step 1100/1563  loss=4.0528  lr=2.20e-06
+  Epoch 19/20  step 1200/1563  loss=4.0537  lr=1.99e-06
+  Epoch 19/20  step 1300/1563  loss=4.0534  lr=1.79e-06
+  Epoch 19/20  step 1400/1563  loss=4.0535  lr=1.60e-06
+  Epoch 19/20  step 1500/1563  loss=4.0573  lr=1.42e-06
+Epoch 19/20  train_loss=4.0569  lr=1.31e-06
+  val_loss=5.1068
+  Epoch 20/20  step 100/1563  loss=4.0457  lr=1.15e-06
+  Epoch 20/20  step 200/1563  loss=4.0393  lr=1.00e-06
+  Epoch 20/20  step 300/1563  loss=4.0419  lr=8.58e-07
+  Epoch 20/20  step 400/1563  loss=4.0444  lr=7.28e-07
+  Epoch 20/20  step 500/1563  loss=4.0455  lr=6.08e-07
+  Epoch 20/20  step 600/1563  loss=4.0466  lr=4.99e-07
+  Epoch 20/20  step 700/1563  loss=4.0471  lr=4.01e-07
+  Epoch 20/20  step 800/1563  loss=4.0482  lr=3.14e-07
+  Epoch 20/20  step 900/1563  loss=4.0520  lr=2.37e-07
+  Epoch 20/20  step 1000/1563  loss=4.0523  lr=1.71e-07
+  Epoch 20/20  step 1100/1563  loss=4.0502  lr=1.16e-07
+  Epoch 20/20  step 1200/1563  loss=4.0514  lr=7.10e-08
+  Epoch 20/20  step 1300/1563  loss=4.0513  lr=3.73e-08
+  Epoch 20/20  step 1400/1563  loss=4.0499  lr=1.43e-08
+  Epoch 20/20  step 1500/1563  loss=4.0508  lr=2.14e-09
+Epoch 20/20  train_loss=4.0517  lr=0.00e+00
+  val_loss=5.1073
+Done. Best checkpoint saved to /home/mit/DEADSERPENT/commit_message_generator/runs/best.pt
+(.venv) mit@mit-HP-Z2-Tower-G9-Workstation-Desktop-PC:~/DEADSERPENT/commit_message_generator$ ^C
+(.venv) mit@mit-HP-Z2-Tower-G9-Workstation-Desktop-PC:~/DEADSERPENT/commit_message_generator$ mv runs/best.pt runs/best_seq2seq.pt
+(.venv) mit@mit-HP-Z2-Tower-G9-Workstation-Desktop-PC:~/DEADSERPENT/commit_message_generator$ 
